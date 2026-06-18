@@ -1,0 +1,1121 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Amine Khaldi — Web Builder & AI Services</title>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind Config for Dark Mode -->
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['Space Grotesk', 'sans-serif'],
+          },
+          colors: {
+            dark: { 900: '#0a0a0f', 800: '#12121a', 700: '#1a1a2e', 600: '#252540' },
+            light: { 900: '#f8fafc', 800: '#e2e8f0', 700: '#cbd5e1', 600: '#94a3b8' },
+            accent: { violet: '#7c3aed', cyan: '#06b6d4', pink: '#ec4899', blue: '#3b82f6' },
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    
+    /* Base Body Styles */
+    body { 
+      background: #0a0a0f; 
+      color: #e2e8f0; 
+      overflow-x: hidden; 
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    
+    /* Light Mode Overrides */
+    body.light-mode {
+      background: #f8fafc;
+      color: #1e293b;
+    }
+    body.light-mode .service-card, 
+    body.light-mode .project-card,
+    body.light-mode #navbar,
+    body.light-mode footer {
+      background: rgba(255, 255, 255, 0.7);
+      border-color: rgba(0,0,0,0.05);
+      color: #1e293b;
+    }
+    body.light-mode h1, body.light-mode h2, body.light-mode h3 { color: #0f172a; }
+    body.light-mode p { color: #475569; }
+    body.light-mode .nav-link { color: #475569; }
+    body.light-mode .nav-link:hover { color: #0f172a; }
+    body.light-mode .text-gray-400 { color: #64748b; }
+    body.light-mode .text-gray-500 { color: #94a3b8; }
+    body.light-mode .bg-dark-700\/50 { background: rgba(226, 232, 240, 0.5); }
+    body.light-mode .bg-dark-800\/50 { background: rgba(226, 232, 240, 0.8); }
+    body.light-mode input, body.light-mode textarea, body.light-mode select {
+      background: #ffffff;
+      border-color: #cbd5e1;
+      color: #0f172a;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: linear-gradient(to bottom, #7c3aed, #06b6d4); border-radius: 3px; }
+
+    /* Animated gradient text */
+    .gradient-text {
+      background: linear-gradient(135deg, #7c3aed, #06b6d4, #ec4899, #7c3aed);
+      background-size: 300% 300%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: gradient-shift 4s ease infinite;
+    }
+
+    @keyframes gradient-shift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Floating animation */
+    .float { animation: float 6s ease-in-out infinite; }
+    .float-delay { animation: float 6s ease-in-out 2s infinite; }
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-20px); }
+    }
+
+    /* Glow effect */
+    .glow-violet { box-shadow: 0 0 30px rgba(124, 58, 237, 0.3), 0 0 60px rgba(124, 58, 237, 0.1); }
+    .glow-cyan { box-shadow: 0 0 30px rgba(6, 182, 212, 0.3), 0 0 60px rgba(6, 182, 212, 0.1); }
+    .glow-text { text-shadow: 0 0 40px rgba(124, 58, 237, 0.5); }
+
+    /* Orb backgrounds */
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.15;
+      pointer-events: none;
+      z-index: 0;
+    }
+    body.light-mode .orb { opacity: 0.08; }
+
+    /* Card hover effect */
+    .service-card {
+      background: rgba(26, 26, 46, 0.5);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(124, 58, 237, 0.1);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    .service-card:hover {
+      transform: translateY(-8px) scale(1.02);
+      border-color: rgba(124, 58, 237, 0.4);
+      box-shadow: 0 20px 60px rgba(124, 58, 237, 0.15), 0 0 30px rgba(6, 182, 212, 0.1);
+    }
+
+    /* Magnetic button */
+    .magnetic-btn {
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+    .magnetic-btn::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.1);
+      transform: translate(-50%, -50%);
+      transition: width 0.6s, height 0.6s;
+    }
+    .magnetic-btn:hover::before {
+      width: 300px;
+      height: 300px;
+    }
+
+    /* Reveal animations */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-left {
+      opacity: 0;
+      transform: translateX(-60px);
+      transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .reveal-left.active {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    .reveal-right {
+      opacity: 0;
+      transform: translateX(60px);
+      transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .reveal-right.active {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* Stagger children */
+    .stagger > * { transition-delay: calc(var(--i, 0) * 0.1s); }
+
+    /* Noise texture overlay */
+    .noise::after {
+      content: '';
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+    }
+    body.light-mode .noise::after { opacity: 0.01; }
+
+    /* Marquee */
+    .marquee-track {
+      display: flex;
+      animation: marquee 20s linear infinite;
+    }
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* Pulse ring */
+    .pulse-ring {
+      animation: pulse-ring 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+    }
+    @keyframes pulse-ring {
+      0% { transform: scale(0.5); opacity: 1; }
+      80%, 100% { transform: scale(2.5); opacity: 0; }
+    }
+
+    /* Grid lines */
+    .grid-bg {
+      background-image:
+        linear-gradient(rgba(124, 58, 237, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(124, 58, 237, 0.05) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+    body.light-mode .grid-bg {
+       background-image:
+        linear-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+    }
+
+    /* Project card image */
+    .project-img { transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+    .project-card:hover .project-img { transform: scale(1.1); }
+
+    /* Counter animation */
+    .counter { font-variant-numeric: tabular-nums; }
+
+    /* Nav active */
+    .nav-link.active-link { color: #7c3aed; }
+    .nav-link.active-link::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, #7c3aed, #06b6d4);
+      border-radius: 1px;
+    }
+
+    /* Toast */
+    .toast {
+      animation: toast-in 0.4s ease, toast-out 0.4s ease 2.6s forwards;
+    }
+    @keyframes toast-in { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    @keyframes toast-out { from { opacity: 1; } to { opacity: 0; } }
+
+    /* Floating Action Buttons */
+    .fab-container {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      z-index: 40;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    .fab {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      transition: transform 0.3s ease;
+    }
+    .fab:hover { transform: scale(1.1); }
+    .fab-whatsapp { background: #25D366; }
+    .fab-telegram { background: #0088cc; }
+  </style>
+</head>
+<body class="noise grid-bg">
+
+  <!-- ===== CURSOR FOLLOWER ===== -->
+  <div id="cursor-glow" class="fixed w-64 h-64 rounded-full pointer-events-none z-50 hidden md:block" style="background: radial-gradient(circle, rgba(124,58,237,0.08) 0%, transparent 70%); transform: translate(-50%,-50%);"></div>
+
+  <!-- ===== NAVIGATION ===== -->
+  <nav id="navbar" class="fixed top-0 left-0 right-0 z-40 transition-all duration-500 bg-transparent">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+      <a href="#hero" class="font-display font-bold text-xl tracking-tight">
+        <span class="gradient-text">AK</span><span class="text-white dark:text-white light-mode:text-black">.</span>
+      </a>
+      
+      <div class="hidden md:flex items-center gap-8">
+        <a href="#about" class="nav-link relative text-sm text-gray-400 hover:text-white transition-colors">About</a>
+        <a href="#services" class="nav-link relative text-sm text-gray-400 hover:text-white transition-colors">Services</a>
+        <a href="#work" class="nav-link relative text-sm text-gray-400 hover:text-white transition-colors">Work</a>
+        <a href="#testimonials" class="nav-link relative text-sm text-gray-400 hover:text-white transition-colors">Reviews</a>
+        
+        <!-- Theme Toggle -->
+        <button id="theme-toggle" class="p-2 rounded-full bg-white/5 hover:bg-white/10 transition-colors" aria-label="Toggle Dark Mode">
+          <!-- Sun Icon (shown in dark mode) -->
+          <i data-lucide="sun" class="w-5 h-5 text-yellow-400 hidden dark:block"></i>
+          <!-- Moon Icon (shown in light mode) -->
+          <i data-lucide="moon" class="w-5 h-5 text-indigo-600 block dark:hidden"></i>
+        </button>
+
+        <a href="#contact" class="magnetic-btn inline-flex items-center gap-2 bg-gradient-to-r from-accent-violet to-accent-cyan text-white text-sm font-semibold px-5 py-2.5 rounded-full">
+          <span>Let's Talk</span>
+          <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </a>
+      </div>
+
+      <div class="md:hidden flex items-center gap-4">
+         <!-- Mobile Theme Toggle -->
+        <button id="mobile-theme-toggle" class="p-2" aria-label="Toggle Dark Mode">
+          <i data-lucide="sun" class="w-5 h-5 text-yellow-400 hidden dark:block"></i>
+          <i data-lucide="moon" class="w-5 h-5 text-indigo-600 block dark:hidden"></i>
+        </button>
+        <button id="mobile-toggle" class="text-white dark:text-black">
+          <i data-lucide="menu" class="w-6 h-6"></i>
+        </button>
+      </div>
+    </div>
+    
+    <!-- Mobile menu -->
+    <div id="mobile-menu" class="md:hidden hidden bg-dark-800/95 backdrop-blur-xl border-t border-white/5 absolute w-full">
+      <div class="px-6 py-6 flex flex-col gap-4">
+        <a href="#about" class="mobile-link text-gray-300 hover:text-white transition-colors py-2">About</a>
+        <a href="#services" class="mobile-link text-gray-300 hover:text-white transition-colors py-2">Services</a>
+        <a href="#work" class="mobile-link text-gray-300 hover:text-white transition-colors py-2">Work</a>
+        <a href="#testimonials" class="mobile-link text-gray-300 hover:text-white transition-colors py-2">Reviews</a>
+        <a href="#contact" class="mobile-link inline-flex items-center justify-center gap-2 bg-gradient-to-r from-accent-violet to-accent-cyan text-white font-semibold px-5 py-3 rounded-full mt-2">
+          <span>Let's Talk</span>
+          <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <section id="hero" class="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <!-- Orbs -->
+    <div class="orb w-96 h-96 bg-accent-violet top-[-10%] left-[-10%] float" style="animation-duration:8s;"></div>
+    <div class="orb w-80 h-80 bg-accent-cyan bottom-[10%] right-[-5%] float-delay" style="animation-duration:10s;"></div>
+    <div class="orb w-64 h-64 bg-accent-pink top-[40%] left-[50%]" style="animation-duration:12s;"></div>
+
+    <div class="relative z-10 max-w-7xl mx-auto px-6 text-center">
+      <!-- Status badge -->
+      <div class="reveal inline-flex items-center gap-2 bg-dark-700/50 backdrop-blur-md border border-white/10 rounded-full px-4 py-2 mb-8">
+        <span class="relative flex h-2.5 w-2.5">
+          <span class="pulse-ring absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-400"></span>
+        </span>
+        <span class="text-sm text-gray-300">Available for projects</span>
+      </div>
+
+      <!-- Main heading -->
+      <h1 class="reveal font-display font-black text-5xl sm:text-6xl md:text-7xl lg:text-8xl leading-[0.95] tracking-tight mb-6">
+        <span class="block text-white dark:text-white light-mode:text-black">I Build</span>
+        <span class="gradient-text block mt-2">Digital Futures</span>
+      </h1>
+
+      <!-- Subheading -->
+      <p class="reveal text-lg sm:text-xl md:text-2xl text-gray-400 max-w-2xl mx-auto mb-4 font-light">
+        Websites that captivate. AI that empowers.
+      </p>
+      <p class="reveal text-base text-gray-500 max-w-xl mx-auto mb-10">
+        I'm <strong class="text-white dark:text-white light-mode:text-black font-semibold">Amine Khaldi</strong> — a freelance web architect & AI solutions provider crafting next-gen digital experiences.
+      </p>
+
+      <!-- CTA buttons -->
+      <div class="reveal flex flex-col sm:flex-row items-center justify-center gap-4">
+        <a href="#contact" class="magnetic-btn group inline-flex items-center gap-3 bg-gradient-to-r from-accent-violet to-accent-cyan text-white font-bold px-8 py-4 rounded-full text-lg">
+          <span>Start a Project</span>
+          <i data-lucide="zap" class="w-5 h-5 group-hover:rotate-12 transition-transform"></i>
+        </a>
+        <a href="#work" class="magnetic-btn group inline-flex items-center gap-3 bg-dark-700/50 backdrop-blur-md border border-white/10 text-white font-semibold px-8 py-4 rounded-full text-lg hover:border-accent-violet/40 transition-colors">
+          <span>View My Work</span>
+          <i data-lucide="eye" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
+        </a>
+      </div>
+
+      <!-- Scroll indicator -->
+      <div class="reveal absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-50">
+        <span class="text-xs uppercase tracking-widest text-gray-500">Scroll</span>
+        <div class="w-5 h-8 border border-gray-600 rounded-full flex justify-center pt-1.5">
+          <div class="w-1 h-2 bg-gray-400 rounded-full animate-bounce"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== MARQUEE ===== -->
+  <div class="overflow-hidden border-y border-white/5 py-4 bg-dark-800/50">
+    <div class="marquee-track whitespace-nowrap">
+      <span class="mx-8 text-lg font-display font-bold text-gray-600">WEB DEVELOPMENT</span>
+      <span class="mx-4 text-accent-violet">✦</span>
+      <span class="mx-8 text-lg font-display font-bold text-gray-600">AI INTEGRATION</span>
+      <span class="mx-4 text-accent-cyan">✦</span>
+      <span class="mx-8 text-lg font-display font-bold text-gray-600">UI/UX DESIGN</span>
+      <span class="mx-4 text-accent-pink">✦</span>
+      <span class="mx-8 text-lg font-display font-bold text-gray-600">CHATBOTS</span>
+      <span class="mx-4 text-accent-violet">✦</span>
+      <span class="mx-8 text-lg font-display font-bold text-gray-600">AUTOMATION</span>
+      <span class="mx-4 text-accent-cyan">✦</span>
+      <span class="mx-8 text-lg font-display font-bold text-gray-600">WEB DEVELOPMENT</span>
+      <span class="mx-4 text-accent-violet">✦</span>
+      <span class="mx-8 text-lg font-display font-bold text-gray-600">AI INTEGRATION</span>
+      <span class="mx-4 text-accent-cyan">✦</span>
+      <span class="mx-8 text-lg font-display font-bold text-gray-600">UI/UX DESIGN</span>
+      <span class="mx-4 text-accent-pink">✦</span>
+      <span class="mx-8 text-lg font-display font-bold text-gray-600">CHATBOTS</span>
+      <span class="mx-4 text-accent-violet">✦</span>
+      <span class="mx-8 text-lg font-display font-bold text-gray-600">AUTOMATION</span>
+      <span class="mx-4 text-accent-cyan">✦</span>
+    </div>
+  </div>
+
+  <!-- ===== ABOUT ===== -->
+  <section id="about" class="relative py-24 md:py-32 overflow-hidden">
+    <div class="orb w-72 h-72 bg-accent-cyan top-[20%] right-[-10%]" style="opacity:0.1;"></div>
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="grid md:grid-cols-2 gap-16 items-center">
+        <!-- Image side -->
+        <div class="reveal-left relative">
+          <div class="relative w-full max-w-md mx-auto">
+            <div class="absolute inset-0 bg-gradient-to-br from-accent-violet to-accent-cyan rounded-3xl transform rotate-3 opacity-20"></div>
+            <!-- FIXED: Replaced local path with a reliable placeholder -->
+            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80" alt="Amine Khaldi" class="relative rounded-3xl w-full object-cover aspect-[4/5] border border-white/10 grayscale hover:grayscale-0 transition-all duration-500">
+            
+            <!-- Floating badges -->
+            <div class="absolute -top-4 -right-4 bg-dark-700/80 backdrop-blur-md border border-accent-violet/30 rounded-2xl px-4 py-3 float">
+              <div class="flex items-center gap-2">
+                <i data-lucide="brain" class="w-5 h-5 text-accent-violet"></i>
+                <span class="text-sm font-semibold text-white">AI Expert</span>
+              </div>
+            </div>
+            <div class="absolute -bottom-4 -left-4 bg-dark-700/80 backdrop-blur-md border border-accent-cyan/30 rounded-2xl px-4 py-3 float-delay">
+              <div class="flex items-center gap-2">
+                <i data-lucide="code-2" class="w-5 h-5 text-accent-cyan"></i>
+                <span class="text-sm font-semibold text-white">Web Architect</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Text side -->
+        <div class="reveal-right">
+          <span class="text-accent-violet font-display font-semibold text-sm uppercase tracking-widest">About Me</span>
+          <h2 class="font-display font-bold text-4xl md:text-5xl text-white dark:text-white light-mode:text-black mt-3 mb-6 leading-tight">
+            Turning Ideas Into<br><span class="gradient-text">Digital Reality</span>
+          </h2>
+          <p class="text-gray-400 text-lg leading-relaxed mb-6">
+            I'm <strong class="text-white dark:text-white light-mode:text-black">Amine Khaldi</strong>, a passionate freelancer specializing in building stunning websites and cutting-edge AI solutions. I don't just code — I craft experiences that drive results.
+          </p>
+          <p class="text-gray-500 leading-relaxed mb-8">
+            With a deep understanding of modern web technologies and artificial intelligence, I help businesses transform their digital presence and unlock new possibilities through intelligent automation and beautiful design.
+          </p>
+
+          <!-- Stats -->
+          <div class="grid grid-cols-3 gap-6">
+            <div class="text-center md:text-left">
+              <div class="font-display font-black text-3xl md:text-4xl gradient-text counter" data-target="50">0</div>
+              <div class="text-sm text-gray-500 mt-1">Projects Done</div>
+            </div>
+            <div class="text-center md:text-left">
+              <div class="font-display font-black text-3xl md:text-4xl gradient-text counter" data-target="35">0</div>
+              <div class="text-sm text-gray-500 mt-1">Happy Clients</div>
+            </div>
+            <div class="text-center md:text-left">
+              <div class="font-display font-black text-3xl md:text-4xl gradient-text counter" data-target="3">0</div>
+              <div class="text-sm text-gray-500 mt-1">Years Exp.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SERVICES ===== -->
+  <section id="services" class="relative py-24 md:py-32 overflow-hidden">
+    <div class="orb w-96 h-96 bg-accent-violet bottom-[-20%] left-[-10%]" style="opacity:0.08;"></div>
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="text-center mb-16">
+        <span class="reveal text-accent-cyan font-display font-semibold text-sm uppercase tracking-widest">What I Offer</span>
+        <h2 class="reveal font-display font-bold text-4xl md:text-5xl text-white dark:text-white light-mode:text-black mt-3 mb-4">
+          Services That <span class="gradient-text">Deliver</span>
+        </h2>
+        <p class="reveal text-gray-400 max-w-2xl mx-auto text-lg">
+          From pixel-perfect websites to intelligent AI solutions — everything you need to dominate the digital space.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 stagger">
+        <!-- Service 1 -->
+        <div class="reveal service-card rounded-2xl p-8 group" style="--i:0">
+          <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-accent-violet/20 to-accent-violet/5 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+            <i data-lucide="layout" class="w-7 h-7 text-accent-violet"></i>
+          </div>
+          <h3 class="font-display font-bold text-xl text-white dark:text-white light-mode:text-black mb-3">Website Development</h3>
+          <p class="text-gray-400 leading-relaxed mb-4">Custom, responsive, and blazing-fast websites built with modern tech stacks. From landing pages to full web apps.</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="text-xs bg-accent-violet/10 text-accent-violet px-3 py-1 rounded-full">React</span>
+            <span class="text-xs bg-accent-cyan/10 text-accent-cyan px-3 py-1 rounded-full">Next.js</span>
+            <span class="text-xs bg-accent-pink/10 text-accent-pink px-3 py-1 rounded-full">Tailwind</span>
+          </div>
+        </div>
+
+        <!-- Service 2 -->
+        <div class="reveal service-card rounded-2xl p-8 group" style="--i:1">
+          <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-accent-cyan/20 to-accent-cyan/5 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+            <i data-lucide="brain" class="w-7 h-7 text-accent-cyan"></i>
+          </div>
+          <h3 class="font-display font-bold text-xl text-white dark:text-white light-mode:text-black mb-3">AI Integration</h3>
+          <p class="text-gray-400 leading-relaxed mb-4">Supercharge your business with AI. Custom chatbots, smart recommendations, and intelligent automation solutions.</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="text-xs bg-accent-cyan/10 text-accent-cyan px-3 py-1 rounded-full">OpenAI</span>
+            <span class="text-xs bg-accent-violet/10 text-accent-violet px-3 py-1 rounded-full">LangChain</span>
+            <span class="text-xs bg-accent-pink/10 text-accent-pink px-3 py-1 rounded-full">RAG</span>
+          </div>
+        </div>
+
+        <!-- Service 3 -->
+        <div class="reveal service-card rounded-2xl p-8 group" style="--i:2">
+          <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-accent-pink/20 to-accent-pink/5 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+            <i data-lucide="palette" class="w-7 h-7 text-accent-pink"></i>
+          </div>
+          <h3 class="font-display font-bold text-xl text-white dark:text-white light-mode:text-black mb-3">UI/UX Design</h3>
+          <p class="text-gray-400 leading-relaxed mb-4">Beautiful, intuitive interfaces that users love. User-centered design that converts visitors into loyal customers.</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="text-xs bg-accent-pink/10 text-accent-pink px-3 py-1 rounded-full">Figma</span>
+            <span class="text-xs bg-accent-violet/10 text-accent-violet px-3 py-1 rounded-full">Prototyping</span>
+            <span class="text-xs bg-accent-cyan/10 text-accent-cyan px-3 py-1 rounded-full">Design Systems</span>
+          </div>
+        </div>
+
+        <!-- Service 4 -->
+        <div class="reveal service-card rounded-2xl p-8 group" style="--i:3">
+          <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-accent-blue/20 to-accent-blue/5 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+            <i data-lucide="bot" class="w-7 h-7 text-accent-blue"></i>
+          </div>
+          <h3 class="font-display font-bold text-xl text-white dark:text-white light-mode:text-black mb-3">AI Chatbots</h3>
+          <p class="text-gray-400 leading-relaxed mb-4">Custom AI assistants that handle customer support, qualify leads, and provide 24/7 intelligent responses.</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="text-xs bg-accent-blue/10 text-accent-blue px-3 py-1 rounded-full">GPT</span>
+            <span class="text-xs bg-accent-violet/10 text-accent-violet px-3 py-1 rounded-full">WhatsApp</span>
+            <span class="text-xs bg-accent-cyan/10 text-accent-cyan px-3 py-1 rounded-full">Web Chat</span>
+          </div>
+        </div>
+
+        <!-- Service 5 -->
+        <div class="reveal service-card rounded-2xl p-8 group" style="--i:4">
+          <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-yellow-500/20 to-yellow-500/5 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+            <i data-lucide="workflow" class="w-7 h-7 text-yellow-500"></i>
+          </div>
+          <h3 class="font-display font-bold text-xl text-white dark:text-white light-mode:text-black mb-3">Automation</h3>
+          <p class="text-gray-400 leading-relaxed mb-4">Streamline your operations. AI-powered workflows that save time, reduce errors, and scale your business effortlessly.</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="text-xs bg-yellow-500/10 text-yellow-500 px-3 py-1 rounded-full">Zapier</span>
+            <span class="text-xs bg-accent-violet/10 text-accent-violet px-3 py-1 rounded-full">Make</span>
+            <span class="text-xs bg-accent-cyan/10 text-accent-cyan px-3 py-1 rounded-full">Custom APIs</span>
+          </div>
+        </div>
+
+        <!-- Service 6 -->
+        <div class="reveal service-card rounded-2xl p-8 group" style="--i:5">
+          <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-green-500/20 to-green-500/5 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+            <i data-lucide="rocket" class="w-7 h-7 text-green-500"></i>
+          </div>
+          <h3 class="font-display font-bold text-xl text-white dark:text-white light-mode:text-black mb-3">Full Packages</h3>
+          <p class="text-gray-400 leading-relaxed mb-4">Website + AI + Design — the complete digital transformation package. Everything you need, built by one expert.</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="text-xs bg-green-500/10 text-green-500 px-3 py-1 rounded-full">All-in-One</span>
+            <span class="text-xs bg-accent-violet/10 text-accent-violet px-3 py-1 rounded-full">Custom</span>
+            <span class="text-xs bg-accent-cyan/10 text-accent-cyan px-3 py-1 rounded-full">Scalable</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== WORK / PORTFOLIO ===== -->
+  <section id="work" class="relative py-24 md:py-32 overflow-hidden">
+    <div class="orb w-80 h-80 bg-accent-pink top-[10%] right-[20%]" style="opacity:0.08;"></div>
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="text-center mb-16">
+        <span class="reveal text-accent-pink font-display font-semibold text-sm uppercase tracking-widest">Portfolio</span>
+        <h2 class="reveal font-display font-bold text-4xl md:text-5xl text-white dark:text-white light-mode:text-black mt-3 mb-4">
+          Selected <span class="gradient-text">Works</span>
+        </h2>
+        <p class="reveal text-gray-400 max-w-2xl mx-auto text-lg">
+          A glimpse into the projects I've brought to life. Each one tells a unique story.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-8">
+        <!-- Project 1 -->
+        <div class="reveal project-card group relative rounded-2xl overflow-hidden bg-dark-700/50 border border-white/5 hover:border-accent-violet/30 transition-all duration-500">
+          <div class="overflow-hidden">
+            <!-- FIXED: Using Unsplash Source -->
+            <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80" alt="Project" class="project-img w-full h-64 object-cover">
+          </div>
+          <div class="p-6">
+            <div class="flex items-center gap-2 mb-3">
+              <span class="text-xs bg-accent-violet/10 text-accent-violet px-3 py-1 rounded-full">Web App</span>
+              <span class="text-xs bg-accent-cyan/10 text-accent-cyan px-3 py-1 rounded-full">AI</span>
+            </div>
+            <h3 class="font-display font-bold text-xl text-white dark:text-white light-mode:text-black mb-2 group-hover:text-accent-violet transition-colors">NexaStore — AI E-Commerce</h3>
+            <p class="text-gray-400 text-sm">Full-stack e-commerce platform with AI-powered product recommendations and dynamic pricing.</p>
+          </div>
+        </div>
+
+        <!-- Project 2 -->
+        <div class="reveal project-card group relative rounded-2xl overflow-hidden bg-dark-700/50 border border-white/5 hover:border-accent-cyan/30 transition-all duration-500">
+          <div class="overflow-hidden">
+             <!-- FIXED: Using Unsplash Source -->
+            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80" alt="Project" class="project-img w-full h-64 object-cover">
+          </div>
+          <div class="p-6">
+            <div class="flex items-center gap-2 mb-3">
+              <span class="text-xs bg-accent-cyan/10 text-accent-cyan px-3 py-1 rounded-full">Website</span>
+              <span class="text-xs bg-accent-pink/10 text-accent-pink px-3 py-1 rounded-full">UI/UX</span>
+            </div>
+            <h3 class="font-display font-bold text-xl text-white dark:text-white light-mode:text-black mb-2 group-hover:text-accent-cyan transition-colors">Finsight — Finance Dashboard</h3>
+            <p class="text-gray-400 text-sm">Modern SaaS dashboard for financial analytics with real-time data visualization and smart insights.</p>
+          </div>
+        </div>
+
+        <!-- Project 3 -->
+        <div class="reveal project-card group relative rounded-2xl overflow-hidden bg-dark-700/50 border border-white/5 hover:border-accent-pink/30 transition-all duration-500">
+          <div class="overflow-hidden">
+             <!-- FIXED: Using Unsplash Source -->
+            <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80" alt="Project" class="project-img w-full h-64 object-cover">
+          </div>
+          <div class="p-6">
+            <div class="flex items-center gap-2 mb-3">
+              <span class="text-xs bg-accent-pink/10 text-accent-pink px-3 py-1 rounded-full">Chatbot</span>
+              <span class="text-xs bg-accent-violet/10 text-accent-violet px-3 py-1 rounded-full">Automation</span>
+            </div>
+            <h3 class="font-display font-bold text-xl text-white dark:text-white light-mode:text-black mb-2 group-hover:text-accent-pink transition-colors">MedAI — Health Assistant Bot</h3>
+            <p class="text-gray-400 text-sm">AI-powered medical assistant chatbot providing 24/7 health guidance and appointment scheduling.</p>
+          </div>
+        </div>
+
+        <!-- Project 4 -->
+        <div class="reveal project-card group relative rounded-2xl overflow-hidden bg-dark-700/50 border border-white/5 hover:border-yellow-500/30 transition-all duration-500">
+          <div class="overflow-hidden">
+             <!-- FIXED: Using Unsplash Source -->
+            <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=80" alt="Project" class="project-img w-full h-64 object-cover">
+          </div>
+          <div class="p-6">
+            <div class="flex items-center gap-2 mb-3">
+              <span class="text-xs bg-yellow-500/10 text-yellow-500 px-3 py-1 rounded-full">Full Stack</span>
+              <span class="text-xs bg-accent-cyan/10 text-accent-cyan px-3 py-1 rounded-full">SaaS</span>
+            </div>
+            <h3 class="font-display font-bold text-xl text-white dark:text-white light-mode:text-black mb-2 group-hover:text-yellow-500 transition-colors">GreenLeaf — Eco Platform</h3>
+            <p class="text-gray-400 text-sm">Sustainability platform with carbon tracking, community forums, and AI-driven eco recommendations.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PROCESS ===== -->
+  <section class="relative py-24 md:py-32 overflow-hidden bg-dark-800/50">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="text-center mb-16">
+        <span class="reveal text-accent-violet font-display font-semibold text-sm uppercase tracking-widest">How I Work</span>
+        <h2 class="reveal font-display font-bold text-4xl md:text-5xl text-white dark:text-white light-mode:text-black mt-3 mb-4">
+          Simple, <span class="gradient-text">Effective</span> Process
+        </h2>
+      </div>
+
+      <div class="grid md:grid-cols-4 gap-8">
+        <div class="reveal text-center group" style="--i:0">
+          <div class="relative mx-auto w-16 h-16 rounded-full bg-gradient-to-br from-accent-violet to-accent-cyan flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+            <span class="font-display font-bold text-xl text-white">1</span>
+          </div>
+          <h3 class="font-display font-bold text-lg text-white dark:text-white light-mode:text-black mb-2">Discovery</h3>
+          <p class="text-gray-400 text-sm">We discuss your vision, goals, and requirements in detail.</p>
+        </div>
+        <div class="reveal text-center group" style="--i:1">
+          <div class="relative mx-auto w-16 h-16 rounded-full bg-gradient-to-br from-accent-cyan to-accent-pink flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+            <span class="font-display font-bold text-xl text-white">2</span>
+          </div>
+          <h3 class="font-display font-bold text-lg text-white dark:text-white light-mode:text-black mb-2">Strategy</h3>
+          <p class="text-gray-400 text-sm">I craft a tailored plan with tech stack, timeline, and milestones.</p>
+        </div>
+        <div class="reveal text-center group" style="--i:2">
+          <div class="relative mx-auto w-16 h-16 rounded-full bg-gradient-to-br from-accent-pink to-accent-violet flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+            <span class="font-display font-bold text-xl text-white">3</span>
+          </div>
+          <h3 class="font-display font-bold text-lg text-white dark:text-white light-mode:text-black mb-2">Build</h3>
+          <p class="text-gray-400 text-sm">I develop your project with regular updates and iterative feedback.</p>
+        </div>
+        <div class="reveal text-center group" style="--i:3">
+          <div class="relative mx-auto w-16 h-16 rounded-full bg-gradient-to-br from-accent-violet to-accent-cyan flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+            <span class="font-display font-bold text-xl text-white">4</span>
+          </div>
+          <h3 class="font-display font-bold text-lg text-white dark:text-white light-mode:text-black mb-2">Launch</h3>
+          <p class="text-gray-400 text-sm">Delivery, deployment, and ongoing support to ensure success.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== TESTIMONIALS ===== -->
+  <section id="testimonials" class="relative py-24 md:py-32 overflow-hidden">
+    <div class="orb w-72 h-72 bg-accent-violet top-[30%] left-[10%]" style="opacity:0.08;"></div>
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="text-center mb-16">
+        <span class="reveal text-accent-cyan font-display font-semibold text-sm uppercase tracking-widest">Testimonials</span>
+        <h2 class="reveal font-display font-bold text-4xl md:text-5xl text-white dark:text-white light-mode:text-black mt-3 mb-4">
+          What Clients <span class="gradient-text">Say</span>
+        </h2>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-6">
+        <!-- Testimonial 1 -->
+        <div class="reveal service-card rounded-2xl p-8">
+          <div class="flex gap-1 mb-4">
+            <i data-lucide="star" class="w-4 h-4 text-yellow-400 fill-yellow-400"></i>
+            <i data-lucide="star" class="w-4 h-4 text-yellow-400 fill-yellow-400"></i>
+            <i data-lucide="star" class="w-4 h-4 text-yellow-400 fill-yellow-400"></i>
+            <i data-lucide="star" class="w-4 h-4 text-yellow-400 fill-yellow-400"></i>
+            <i data-lucide="star" class="w-4 h-4 text-yellow-400 fill-yellow-400"></i>
+          </div>
+          <p class="text-gray-300 leading-relaxed mb-6">"Amine transformed our online presence completely. The website he built is not just beautiful — it's a conversion machine. Our leads increased by 300%."</p>
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-accent-violet to-accent-cyan flex items-center justify-center">
+              <span class="font-bold text-white text-sm">SB</span>
+            </div>
+            <div>
+              <div class="font-semibold text-white dark:text-white light-mode:text-black text-sm">Sarah B.</div>
+              <div class="text-xs text-gray-500">CEO, TechFlow</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Testimonial 2 -->
+        <div class="reveal service-card rounded-2xl p-8">
+          <div class="flex gap-1 mb-4">
+            <i data-lucide="star" class="w-4 h-4 text-yellow-400 fill-yellow-400"></i>
+            <i data-lucide="star" class="w-4 h-4 text-yellow-400 fill-yellow-400"></i>
+            <i data-lucide="star" class="w-4 h-4 text-yellow-400 fill-yellow-400"></i>
+            <i data-lucide="star" class="w-4 h-4 text-yellow-400 fill-yellow-400"></i>
+            <i data-lucide="star" class="w-4 h-4 text-yellow-400 fill-yellow-400"></i>
+          </div>
+          <p class="text-gray-300 leading-relaxed mb-6">"The AI chatbot Amine built for us handles 80% of customer queries automatically. It's like having a 24/7 support team. Incredible work."</p>
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-accent-pink to-accent-violet flex items-center justify-center">
+              <span class="font-bold text-white text-sm">MK</span>
+            </div>
+            <div>
+              <div class="font-semibold text-white dark:text-white light-mode:text-black text-sm">Mohammed K.</div>
+              <div class="text-xs text-gray-500">Founder, ServiAI</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Testimonial 3 -->
+        <div class="reveal service-card rounded-2xl p-8">
+          <div class="flex gap-1 mb-4">
+            <i data-lucide="star" class="w-4 h-4 text-yellow-400 fill-yellow-400"></i>
+            <i data-lucide="star" class="w-4 h-4 text-yellow-400 fill-yellow-400"></i>
+            <i data-lucide="star" class="w-4 h-4 text-yellow-400 fill-yellow-400"></i>
+            <i data-lucide="star" class="w-4 h-4 text-yellow-400 fill-yellow-400"></i>
+            <i data-lucide="star" class="w-4 h-4 text-yellow-400 fill-yellow-400"></i>
+          </div>
+          <p class="text-gray-300 leading-relaxed mb-6">"Working with Amine is seamless. He understands what you need before you even explain it. The full package — design, dev, and AI. Highly recommend."</p>
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-accent-cyan to-accent-pink flex items-center justify-center">
+              <span class="font-bold text-white text-sm">LR</span>
+            </div>
+            <div>
+              <div class="font-semibold text-white dark:text-white light-mode:text-black text-sm">Lina R.</div>
+              <div class="text-xs text-gray-500">CMO, GrowthLab</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CONTACT ===== -->
+  <section id="contact" class="relative py-24 md:py-32 overflow-hidden bg-dark-800/50">
+    <div class="orb w-96 h-96 bg-accent-cyan top-[10%] right-[-15%]" style="opacity:0.1;"></div>
+    <div class="orb w-72 h-72 bg-accent-violet bottom-[10%] left-[-10%]" style="opacity:0.1;"></div>
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="grid lg:grid-cols-2 gap-16 items-start">
+        <!-- Left -->
+        <div class="reveal-left">
+          <span class="text-accent-violet font-display font-semibold text-sm uppercase tracking-widest">Get In Touch</span>
+          <h2 class="font-display font-bold text-4xl md:text-5xl text-white dark:text-white light-mode:text-black mt-3 mb-6 leading-tight">
+            Let's Build<br><span class="gradient-text">Something Great</span>
+          </h2>
+          <p class="text-gray-400 text-lg leading-relaxed mb-8">
+            Ready to transform your digital presence? Drop me a message and let's discuss your next project. I respond within 24 hours.
+          </p>
+
+          <div class="space-y-6">
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 rounded-xl bg-accent-violet/10 flex items-center justify-center">
+                <i data-lucide="mail" class="w-5 h-5 text-accent-violet"></i>
+              </div>
+              <div class="flex-1">
+                <div class="text-sm text-gray-500">Email</div>
+                <div class="text-white dark:text-white light-mode:text-black font-medium flex items-center gap-2">
+                  mohamadaminkharuij19@gmail.com
+                  <button onclick="copyEmail()" class="text-xs bg-white/10 hover:bg-white/20 px-2 py-1 rounded transition-colors">Copy</button>
+                </div>
+              </div>
+            </div>
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 rounded-xl bg-accent-cyan/10 flex items-center justify-center">
+                <i data-lucide="map-pin" class="w-5 h-5 text-accent-cyan"></i>
+              </div>
+              <div>
+                <div class="text-sm text-gray-500">Location</div>
+                <div class="text-white dark:text-white light-mode:text-black font-medium">Available Worldwide 🌍</div>
+              </div>
+            </div>
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 rounded-xl bg-accent-pink/10 flex items-center justify-center">
+                <i data-lucide="phone" class="w-5 h-5 text-accent-pink"></i>
+              </div>
+              <div>
+                <div class="text-sm text-gray-500">Phone</div>
+                <div class="text-white dark:text-white light-mode:text-black font-medium">+213 776 056 437</div>
+              </div>
+            </div>
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 rounded-xl bg-yellow-500/10 flex items-center justify-center">
+                <i data-lucide="clock" class="w-5 h-5 text-yellow-500"></i>
+              </div>
+              <div>
+                <div class="text-sm text-gray-500">Response Time</div>
+                <div class="text-white dark:text-white light-mode:text-black font-medium">Within 24 Hours</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Socials -->
+          <div class="mt-8 flex gap-3">
+            <a href="#" class="w-11 h-11 rounded-xl bg-dark-700/50 border border-white/5 flex items-center justify-center text-gray-400 hover:text-white hover:border-accent-violet/40 transition-all">
+              <i data-lucide="github" class="w-5 h-5"></i>
+            </a>
+            <a href="#" class="w-11 h-11 rounded-xl bg-dark-700/50 border border-white/5 flex items-center justify-center text-gray-400 hover:text-white hover:border-accent-cyan/40 transition-all">
+              <i data-lucide="linkedin" class="w-5 h-5"></i>
+            </a>
+            <a href="#" class="w-11 h-11 rounded-xl bg-dark-700/50 border border-white/5 flex items-center justify-center text-gray-400 hover:text-white hover:border-accent-pink/40 transition-all">
+              <i data-lucide="twitter" class="w-5 h-5"></i>
+            </a>
+            <a href="#" class="w-11 h-11 rounded-xl bg-dark-700/50 border border-white/5 flex items-center justify-center text-gray-400 hover:text-white hover:border-yellow-500/40 transition-all">
+              <i data-lucide="instagram" class="w-5 h-5"></i>
+            </a>
+          </div>
+          
+          <!-- NEW: Direct WhatsApp Button in Contact Section -->
+          <a href="https://wa.me/213776056437" target="_blank" class="mt-8 inline-flex items-center gap-2 bg-[#25D366] hover:bg-[#20bd5a] text-white font-bold px-6 py-3 rounded-xl transition-colors">
+            <i data-lucide="message-circle" class="w-5 h-5"></i>
+            <span>Chat on WhatsApp</span>
+          </a>
+        </div>
+
+        <!-- Right — Form -->
+        <div class="reveal-right">
+          <form id="contact-form" class="service-card rounded-2xl p-8 md:p-10 space-y-6">
+            <div class="grid sm:grid-cols-2 gap-6">
+              <div>
+                <label class="block text-sm font-medium text-gray-300 mb-2">Your Name</label>
+                <input type="text" required placeholder="John Doe" class="w-full bg-dark-900/50 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-accent-violet/50 focus:ring-1 focus:ring-accent-violet/30 transition-all">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-300 mb-2">Email</label>
+                <input type="email" required placeholder="john@example.com" class="w-full bg-dark-900/50 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-accent-violet/50 focus:ring-1 focus:ring-accent-violet/30 transition-all">
+              </div>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-300 mb-2">Service Needed</label>
+              <select class="w-full bg-dark-900/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-accent-violet/50 focus:ring-1 focus:ring-accent-violet/30 transition-all appearance-none" style="background-image: url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%239ca3af' viewBox='0 0 16 16'%3E%3Cpath d='M4.646 5.646a.5.5 0 0 1 .708 0L8 8.293l2.646-2.647a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E&quot;); background-repeat: no-repeat; background-position: right 1rem center;">
+                <option value="" class="bg-dark-800">Select a service</option>
+                <option value="web" class="bg-dark-800">Website Development</option>
+                <option value="ai" class="bg-dark-800">AI Integration</option>
+                <option value="chatbot" class="bg-dark-800">AI Chatbot</option>
+                <option value="design" class="bg-dark-800">UI/UX Design</option>
+                <option value="automation" class="bg-dark-800">Automation</option>
+                <option value="full" class="bg-dark-800">Full Package</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-300 mb-2">Budget Range</label>
+              <select class="w-full bg-dark-900/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-accent-violet/50 focus:ring-1 focus:ring-accent-violet/30 transition-all appearance-none" style="background-image: url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%239ca3af' viewBox='0 0 16 16'%3E%3Cpath d='M4.646 5.646a.5.5 0 0 1 .708 0L8 8.293l2.646-2.647a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E&quot;); background-repeat: no-repeat; background-position: right 1rem center;">
+                <option value="" class="bg-dark-800">Select budget range</option>
+                <option value="500" class="bg-dark-800">$500 - $1,000</option>
+                <option value="1000" class="bg-dark-800">$1,000 - $3,000</option>
+                <option value="3000" class="bg-dark-800">$3,000 - $5,000</option>
+                <option value="5000" class="bg-dark-800">$5,000+</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-300 mb-2">Project Details</label>
+              <textarea rows="4" required placeholder="Tell me about your project..." class="w-full bg-dark-900/50 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-accent-violet/50 focus:ring-1 focus:ring-accent-violet/30 transition-all resize-none"></textarea>
+            </div>
+            <button type="submit" class="magnetic-btn w-full inline-flex items-center justify-center gap-3 bg-gradient-to-r from-accent-violet to-accent-cyan text-white font-bold px-8 py-4 rounded-xl text-lg hover:shadow-lg hover:shadow-accent-violet/20 transition-shadow">
+              <span>Send Message</span>
+              <i data-lucide="send" class="w-5 h-5"></i>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="border-t border-white/5 py-12">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+        <div class="flex items-center gap-2">
+          <span class="font-display font-bold text-xl gradient-text">AK</span>
+          <span class="text-white font-bold">.</span>
+          <span class="text-gray-500 text-sm ml-2">© 2025 Amine Khaldi. All rights reserved.</span>
+        </div>
+        <div class="flex items-center gap-6">
+          <a href="#hero" class="text-sm text-gray-400 hover:text-white transition-colors">Home</a>
+          <a href="#about" class="text-sm text-gray-400 hover:text-white transition-colors">About</a>
+          <a href="#services" class="text-sm text-gray-400 hover:text-white transition-colors">Services</a>
+          <a href="#work" class="text-sm text-gray-400 hover:text-white transition-colors">Work</a>
+          <a href="#contact" class="text-sm text-gray-400 hover:text-white transition-colors">Contact</a>
+        </div>
+        <button id="back-to-top" class="w-10 h-10 rounded-full bg-dark-700/50 border border-white/10 flex items-center justify-center text-gray-400 hover:text-white hover:border-accent-violet/40 transition-all">
+          <i data-lucide="arrow-up" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===== FLOATING ACTION BUTTONS (WhatsApp & Telegram) ===== -->
+  <div class="fab-container">
+    <a href="https://t.me/YOUR_TELEGRAM_USERNAME" target="_blank" class="fab fab-telegram" title="Contact on Telegram">
+      <i data-lucide="send" class="w-6 h-6"></i>
+    </a>
+    <a href="https://wa.me/213776056437" target="_blank" class="fab fab-whatsapp" title="Contact on WhatsApp">
+      <i data-lucide="message-circle" class="w-6 h-6"></i>
+    </a>
+  </div>
+
+  <!-- ===== TOAST CONTAINER ===== -->
+  <div id="toast-container" class="fixed bottom-6 right-6 z-50 flex flex-col gap-3"></div>
+
+  <!-- ===== SCRIPTS ===== -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    // Initialize Lucide icons
+    lucide.createIcons();
+
+    // ====== THEME TOGGLE LOGIC ======
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    const mobileThemeToggleBtn = document.getElementById('mobile-theme-toggle');
+    const body = document.body;
+    
+    // Check local storage or system preference
+    if (localStorage.getItem('theme') === 'light' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: light)').matches)) {
+      body.classList.add('light-mode');
+      body.classList.remove('dark');
+    } else {
+      body.classList.remove('light-mode');
+      body.classList.add('dark');
+    }
+
+    function toggleTheme() {
+      body.classList.toggle('light-mode');
+      body.classList.toggle('dark');
+      
+      if (body.classList.contains('light-mode')) {
+        localStorage.setItem('theme', 'light');
+      } else {
+        localStorage.setItem('theme', 'dark');
+      }
+    }
+
+    themeToggleBtn.addEventListener('click', toggleTheme);
+    mobileThemeToggleBtn.addEventListener('click', toggleTheme);
+
+    // ====== CURSOR GLOW ======
+    const cursorGlow = document.getElementById('cursor-glow');
+    document.addEventListener('mousemove', (e) => {
+      cursorGlow.style.left = e.clientX + 'px';
+      cursorGlow.style.top = e.clientY + 'px';
+    });
+
+    // ====== NAVBAR SCROLL ======
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        navbar.style.background = body.classList.contains('light-mode') ? 'rgba(248, 250, 252, 0.85)' : 'rgba(10, 10, 15, 0.85)';
+        navbar.style.backdropFilter = 'blur(20px)';
+        navbar.style.borderBottom = '1px solid rgba(255,255,255,0.05)';
+      } else {
+        navbar.style.background = 'transparent';
+        navbar.style.backdropFilter = 'none';
+        navbar.style.borderBottom = 'none';
+      }
+    });
+
+    // ====== MOBILE MENU ======
+    const mobileToggle = document.getElementById('mobile-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    let menuOpen = false;
+    mobileToggle.addEventListener('click', () => {
+      menuOpen = !menuOpen;
+      mobileMenu.classList.toggle('hidden');
+      mobileToggle.innerHTML = menuOpen
+        ? '<i data-lucide="x" class="w-6 h-6"></i>'
+        : '<i data-lucide="menu" class="w-6 h-6"></i>';
+      lucide.createIcons();
+    });
+    document.querySelectorAll('.mobile-link').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.add('hidden');
+        menuOpen = false;
+        mobileToggle.innerHTML = '<i data-lucide="menu" class="w-6 h-6"></i>';
+        lucide.createIcons();
+      });
+    });
+
+    // ====== SCROLL REVEAL ======
+    const revealElements = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+    revealElements.forEach(el => revealObserver.observe(el));
+
+    // ====== ACTIVE NAV LINK ======
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-link');
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop - 100;
+        if (scrollY >= sectionTop) current = section.getAttribute('id');
+      });
+      navLinks.forEach(link => {
+        link.classList.remove('active-link');
+        if (link.getAttribute('href') === '#' + current) {
+          link.classList.add('active-link');
+        }
+      });
+    });
+
+    // ====== COUNTER ANIMATION ======
+    const counters = document.querySelectorAll('.counter');
+    const counterObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const el = entry.target;
+          const target = parseInt(el.dataset.target);
+          let count = 0;
+          const increment = target / 60;
+          const timer = setInterval(() => {
+            count += increment;
+            if (count >= target) {
+              el.textContent = target + '+';
+              clearInterval(timer);
+            } else {
+              el.textContent = Math.floor(count) + '+';
+            }
+          }, 30);
+          counterObserver.unobserve(el);
+        }
+      });
+    }, { threshold: 0.5 });
+    counters.forEach(el => counterObserver.observe(el));
+
+    // ====== CONTACT FORM ======
+    const contactForm = document.getElementById('contact-form');
+    contactForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      // Simulate sending
+      const btn = contactForm.querySelector('button');
+      const originalText = btn.innerHTML;
+      btn.innerHTML = '<span>Sending...</span>';
+      btn.disabled = true;
+      
+      setTimeout(() => {
+        showToast('Message sent! 🚀 I\'ll get back to you within 24 hours.', 'success');
+        contactForm.reset();
+        btn.innerHTML = originalText;
+        btn.disabled = false;
+      }, 1500);
+    });
+
+    // ====== COPY EMAIL FUNCTION ======
+    function copyEmail() {
+      navigator.clipboard.writeText('mohamadaminkharuij19@gmail.com');
+      showToast('Email copied to clipboard!', 'success');
+    }
+
+    // ====== TOAST ======
+    function showToast(message, type = 'success') {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      const bgColor = type === 'success' ? 'from-accent-violet to-accent-cyan' : 'from-red-500 to-red-600';
+      toast.className = `toast bg-gradient-to-r ${bgColor} text-white px-6 py-3 rounded-xl shadow-lg font-medium text-sm flex items-center gap-2`;
+      toast.innerHTML = `<span>${message}</span>`;
+      container.appendChild(toast);
+      setTimeout(() => toast.remove(), 3200);
+    }
+
+    // ====== BACK TO TOP ======
+    document.getElementById('back-to-top').addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  </script>
+</body>
+</html>
